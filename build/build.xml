@@ -1,0 +1,39 @@
+<project name="make_project" basedir=".." default="build">
+	<property name="src_dir" value="src" override="false"/>
+	<property name="dst_dir" value="web" override="false"/>
+
+	<fileset dir="${src_dir}" id="src">
+		<include name="**/*"/>
+		<exclude name="index-test.php"/>
+	</fileset>
+
+	<target name="copy">
+		<echo>Copy files</echo>
+		<delete dir="${dst_dir}/" includeemptydirs="true"/>
+		<copy todir="${dst_dir}">
+			<fileset refid="src"/>
+		</copy>
+	</target>
+
+	<target name="clear_cache_dir">
+		<echo>Clear cache dirs</echo>
+		<delete>
+			<fileset dir="${dst_dir}/protected/runtime">
+				<include name="**"/>
+			</fileset>
+			<fileset dir="${dst_dir}/assets/">
+				<include name="**"/>
+			</fileset>
+		</delete>
+	</target>
+
+	<target name="make_dir">
+		<echo>Making needing dirs</echo>
+		<mkdir dir="${dst_dir}/assets"/>
+		<chmod file="${dst_dir}/assets" mode="0777" />
+		<mkdir dir="${dst_dir}/protected/runtime"/>
+		<chmod file="${dst_dir}/protected/runtime" mode="0777" />
+	</target>
+
+	<target name="build" depends="copy,make_dir,clear_cache_dir" />
+</project>
