@@ -50,18 +50,15 @@ return CMap::mergeArray(
 				//Вероятность вызова метода отчистки сессий в %
 				'gCProbability' => 1,
 			),
-			// uncomment the following to enable URLs in path-format
-			/*
+
 			'urlManager'=>array(
 				'urlFormat'=>'path',
+				'urlSuffix'=>'/',
 				'rules'=>array(
-					'<controller:\w+>/<id:\d+>'=>'<controller>/view',
-					'<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',
-					'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
 				),
+				'showScriptName'=>false,
 			),
-			*/
-			// uncomment the following to use a MySQL database
+
 			'db'=>array(
 				'connectionString' => 'mysql:host=#DATABASEHOST#;dbname=#DATABASENAME#',
 				'emulatePrepare' => true,
