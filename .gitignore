@@ -1,3 +1,4 @@
 src/protected/runtime/
 src/assets/
 .idea/
+src/protected/config/main.php
