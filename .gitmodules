@@ -1,0 +1,3 @@
+[submodule "src/protected/extensions/yiidebugtb"]
+	path = src/protected/extensions/yiidebugtb
+	url = git://github.com/cr0t/yiidebugtb.git
