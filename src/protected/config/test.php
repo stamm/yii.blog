@@ -1,17 +1,44 @@
 <?php
 
-return CMap::mergeArray(
-	require(dirname(__FILE__).'/main.php'),
-	array(
-		'components'=>array(
-			'fixture'=>array(
-				'class'=>'system.test.CDbFixtureManager',
+$aConf = CMap::mergeArray(
+	CMap::mergeArray(
+		require(dirname(__FILE__).'/main.php'),
+		array(
+			'import' => array(
+				'application.tests.functional.cases.*',
 			),
-			/* uncomment the following to provide test database connection
-			'db'=>array(
-				'connectionString'=>'DSN for test database',
+			'components'=>array(
+				'fixture'=>array(
+					'class'=>'system.test.CDbFixtureManager',
+				),
+				'db'=>array(
+					'connectionString' => 'mysql:host=#TESTDATABASEHOST#;dbname=#TESTDATABASENAME#',
+					'emulatePrepare' => true,
+					'username' => '#TESTDATABASEUSER#',
+					'password' => '#TESTDATABASEPASSWORD#',
+					'charset' => 'utf8',
+				),
+				'log'=>array(
+					'class'=>'CLogRouter',
+					 'routes'=>array(
+						array(
+							  'class'=>'CFileLogRoute',
+							  'levels'=>'error, warning, trace, info, profile',
+							  'logFile'=>'test.log',
+						),
+					),
+				),
 			),
-			*/
-		),
-	)
+		)
+	),
+	require(dirname(__FILE__).'/test.custom.php')
 );
+// Удаление тулбара
+foreach($aConf['components']['log']['routes'] as $key=>$aValue)
+{
+	if ($aValue['class'] == 'XWebDebugRouter')
+	{
+		unset($aConf['components']['log']['routes'][$key]);
+	}
+}
+return $aConf;
