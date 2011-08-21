@@ -40,23 +40,23 @@ return CMap::mergeArray(
 				'enableCookieValidation'=>true,
 			),
 
-			'session'=>array(
-				/*'class' => 'CDbHttpSession',
-				'connectionID' => 'db',
-				'autoCreateSessionTable' => false,*/
-				'sessionName' => 'yii.blog',
-				'cookieMode' => 'only',
-				'timeout' => 1800,//60*30
-				//Вероятность вызова метода отчистки сессий в %
-				'gCProbability' => 1,
-			),
+//			'session'=>array(
+//				/*'class' => 'CDbHttpSession',
+//				'connectionID' => 'db',
+//				'autoCreateSessionTable' => false,*/
+//				'sessionName' => 'yii.blog',
+//				'cookieMode' => 'only',
+//				'timeout' => 1800,//60*30
+//				//Вероятность вызова метода отчистки сессий в %
+//				'gCProbability' => 1,
+//			),
 
 			'urlManager'=>array(
 				'urlFormat'=>'path',
+				'showScriptName'=>false,
 				'urlSuffix'=>'/',
 				'rules'=>array(
 				),
-				'showScriptName'=>false,
 			),
 
 			'db'=>array(
