@@ -38,7 +38,7 @@ class User extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('username, password, salt, email', 'required'),
+			array('username, password, email', 'required'),
 			array('username, password, salt, email', 'length', 'max'=>128),
 			array('profile', 'safe'),
 			// The following rule is used by search().
@@ -65,11 +65,11 @@ class User extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'username' => 'Username',
-			'password' => 'Password',
-			'salt' => 'Salt',
-			'email' => 'Email',
-			'profile' => 'Profile',
+			'username' => Yii::t(__CLASS__, 'Username'),
+			'password' => Yii::t(__CLASS__, 'Password'),
+			'salt' => Yii::t(__CLASS__, 'Salt'),
+			'email' => Yii::t(__CLASS__, 'Email'),
+			'profile' => Yii::t(__CLASS__, 'Profile'),
 		);
 	}
 
@@ -94,5 +94,34 @@ class User extends CActiveRecord
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
+	}
+
+	public function validatePassword($password)
+	{
+		return $this->hashPassword($password) === $this->password;
+	}
+
+	public function hashPassword($password)
+	{
+		return md5($this->salt . $password);
+	}
+
+	protected function beforeSave()
+	{
+		// Generate salt if needing
+		if ($this->isNewRecord || ! $this->salt)
+		{
+			$this->salt = md5(mt_rand(0, 1000) . microtime(TRUE));
+		}
+		if ($this->password == '')
+		{
+			unset($this->password);
+		}
+		// Dont change password on login
+		elseif ($this->scenario != 'login')
+		{
+			$this->password = $this->hashPassword($this->password);
+		}
+		return parent::beforeSave();
 	}
 }
