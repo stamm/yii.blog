@@ -1,6 +1,6 @@
 <?php
 $this->breadcrumbs=array(
-	'Posts'=>array('index'),
+	Yii::t('all','Posts')=>array('index'),
 	$model->title=>array('view','id'=>$model->id),
 	'Update',
 );

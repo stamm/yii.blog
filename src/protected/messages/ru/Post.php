@@ -10,4 +10,8 @@ return array(
 	'Author' => 'Автор',
 	'Url' => 'Url',
 	'Short Url' => 'Короткая ссылка',
+
+	'Posts' => 'Посты',
+	'Create Post' => 'Создать пост',
+	'Manage Post' => 'Управление постами',
 );

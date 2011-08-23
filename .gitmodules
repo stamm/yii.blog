@@ -1,3 +1,6 @@
 [submodule "src/protected/extensions/yiidebugtb"]
 	path = src/protected/extensions/yiidebugtb
 	url = git://github.com/cr0t/yiidebugtb.git
+[submodule "src/protected/extensions/markitup-widget"]
+	path = src/protected/extensions/markitup-widget
+	url = git://github.com/yiiext/markitup-widget.git
