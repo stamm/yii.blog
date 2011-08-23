@@ -11,4 +11,5 @@ License (BSD)
 
 * [Yii](http://yiiframework.com)
 * Yii extensions:
-** [Markitup idget](https://github.com/yiiext/markitup-widget)
+* [Markitup widget](https://github.com/yiiext/markitup-widget)
+* [Yii Debug Toolbar](https://github.com/cr0t/yiidebugtb)
