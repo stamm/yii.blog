@@ -30,7 +30,7 @@ $cs->registerScriptFile('/static/js/fancybox/jquery.fancybox-1.3.4.pack.js', CCl
 </div>
 
 <b><?php echo CHtml::encode($model->getAttributeLabel('tags')); ?>:</b>
-<?php #echo $model->tagsLink(); ?>
+<?php echo $model->tagsLink(); ?>
 
 
 <div id="social-buttons">
@@ -49,7 +49,7 @@ $cs->registerScriptFile('/static/js/fancybox/jquery.fancybox-1.3.4.pack.js', CCl
 	<?php endif; ?>
 
 
-	<h3 style="padding-top:20px;">Оставить комментарий</h3>
+	<h3 style="padding-top:20px;"><?php echo Yii::t('Post', 'Leave comment');?></h3>
 	<?php if (Yii::app()->user->hasFlash('commentSubmitted')) { ?>
 		<div class="flash-success">
 			<?php echo Yii::app()->user->getFlash('commentSubmitted'); ?>

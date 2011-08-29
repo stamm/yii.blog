@@ -63,6 +63,26 @@
 		?>
 	</div>
 
+	<div class="row">
+		<?php echo $form->labelEx($model,'tags_string'); ?>
+				<?php
+			$this->widget('zii.widgets.jui.CJuiAutoComplete', array(
+				'model'=>$model,
+				'attribute'=>'tags_string',
+				'value'=>$model->tags_string,
+				'source'=>Tag::model()->getTags(),
+				// additional javascript options for the autocomplete plugin
+				'options'=>array(
+					'minLength'=>'2',
+				),
+				'htmlOptions'=>array(
+					'style'=>'height:20px;'
+				),
+			));
+		?>
+		<?php echo $form->error($model,'tags_string'); ?>
+	</div>
+
 	<div class="row buttons">
 		<?php echo CHtml::submitButton($model->isNewRecord ? Yii::t('all', 'Create') : Yii::t('all', 'Save')); ?>
 	</div>

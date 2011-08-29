@@ -76,12 +76,12 @@ class PostController extends Controller
 			)
 		);
 		$this->pageTitle = $oPost->title;
-		#$aComments = $oPost->comments;
-		#$oComment = $this->newComment($oPost);
+		$aComments = $oPost->comments;
+		$oComment = $this->newComment($oPost);
 		$this->render('view',array(
 			'model'=>$oPost,
-			'comment' => '',
-			'aComments' => '',
+			'comment' => $oComment,
+			'aComments' => $aComments,
 		));
 	}
 
@@ -125,6 +125,7 @@ class PostController extends Controller
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
+		$aTags = array();
 		if(isset($_POST['Post']))
 		{
 			$model->attributes=$_POST['Post'];
@@ -133,8 +134,22 @@ class PostController extends Controller
 		}
 		else
 		{
+			if ($model->tags)
+			{
+				foreach ($model->tags as $oTag)
+				{
+					$aTags[] = $oTag->name;
+				}
+			}
+		}
+
+		if ( ! isset($_POST['Post']) || ! $model->post_time)
+		{
 			$model->post_time = date('Y-m-d', $model->post_time);
 		}
+
+		$model->tags_string = Tag::array2string($aTags);
+
 
 		$this->render('update',array(
 			'model'=>$model,
@@ -260,4 +275,49 @@ class PostController extends Controller
 			Yii::app()->end();
 		}
 	}
+
+	protected function newComment($post)
+	{
+		$oComment = new Comment;
+
+		$cookie_keys = array('author', 'email', 'url');
+
+		if (isset($_POST['Comment']))
+		{
+			$oComment->attributes=$_POST['Comment'];
+			if (isset($_POST['ajax']) && $_POST['ajax'] == 'comment-form')
+			{
+				echo CActiveForm::validate($oComment);
+				Yii::app()->end();
+			}
+			if ($post->addComment($oComment))
+			{
+				foreach($cookie_keys as $field)
+				{
+					$field_cookie = 'form_' . $field;
+					$cookie=new CHttpCookie($field_cookie, $oComment->{$field});
+					$cookie->expire = strtotime('+1 year');
+					Yii::app()->request->cookies[$field_cookie]=$cookie;
+				}
+				if ($oComment->status == Comment::STATUS_PENDING)
+				{
+					Yii::app()->user->setFlash('commentSubmitted', 'Спасибо за комментарий! Сейчас он находится на модерации, но скоро появится ;)');
+				}
+				$this->refresh(true, '#c' . $oComment->id);
+			}
+		}
+		else
+		{
+			foreach($cookie_keys as $field)
+			{
+				$field_cookie = 'form_' . $field;
+				if (Yii::app()->request->cookies[$field_cookie])
+				{
+					$oComment->{$field} = Yii::app()->request->cookies[$field_cookie]->value;
+				}
+			}
+		}
+		return $oComment;
+	}
 }
+

@@ -18,4 +18,7 @@ return array(
 	'Update Post' => 'Обновить пост',
 	'Delete Post' => 'Удалить пост',
 	'Manage' => 'Управление',
+	'Tags' => 'Метки',
+
+	'Leave comment' => 'Оставить комментарий',
 );

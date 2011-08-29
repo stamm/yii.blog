@@ -86,4 +86,42 @@ class Tag extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+
+	/**
+	 * Return array of tags for autocomplete
+	 * @param string $search
+	 * @param int $limit
+	 * @return array
+	 */
+	public function getTags($search = '', $limit = 10)
+	{
+		$aModels = self::model()->findAll(array(
+			'select' => 'name',
+			/*'condition' => 'name LIKE :name',
+			'params' => array(
+				':name' => '%', $search . '%',
+			),*/
+			'order' => 'name',
+			'limit' => $limit,
+		));
+		$aResult = array();
+		if (is_array($aModels) && count($aModels))
+		{
+			foreach ($aModels as $oModel)
+			{
+				$aResult[] = $oModel->name;
+			}
+		}
+		return $aResult;
+	}
+
+	public static function string2array($tags)
+	{
+		return preg_split('/\s*,\s*/',trim($tags),-1,PREG_SPLIT_NO_EMPTY);
+	}
+
+	public static function array2string($tags)
+	{
+		return implode(', ',$tags);
+	}
 }

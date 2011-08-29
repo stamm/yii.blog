@@ -22,6 +22,7 @@ class Post extends CActiveRecord
 	const STATUS_PUBLISHED=2;
 	const STATUS_ARCHIVED=3;
 
+	/** @var string Tags separated comma*/
 	public $tags_string;
 
 	/** @var array */
@@ -54,7 +55,7 @@ class Post extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('title, content, status, url, post_time', 'required'),
+			array('title, content, status, url, post_time, tags_string', 'required'),
 			array('url', 'unique'),
 			array('status, create_time, update_time, author_id', 'numerical', 'integerOnly'=>true),
 			array('url', 'in', 'range' => self::$aDisabledTitle, 'not'=>true, 'message' => 'Not allowed to use this url'),
@@ -108,6 +109,8 @@ class Post extends CActiveRecord
 			'author_id' => Yii::t(__CLASS__, 'Author'),
 			'url' => Yii::t(__CLASS__, 'Url'),
 			'short_url' => Yii::t(__CLASS__, 'Short Url'),
+			'tags' => Yii::t(__CLASS__, 'Tags'),
+			'tags_string' => Yii::t(__CLASS__, 'Tags'),
 		);
 	}
 
@@ -191,8 +194,6 @@ class Post extends CActiveRecord
 
 	protected function afterSave()
 	{
-		parent::afterSave();
-
 		if ( ! empty($this->tags_string))
 		{
 			// Delete old tags
@@ -219,6 +220,7 @@ class Post extends CActiveRecord
 				}
 			}
 		}
+		parent::afterSave();
 	}
 
 	protected function afterDelete()
@@ -372,5 +374,28 @@ class Post extends CActiveRecord
 			$content = $pre_content . $code . $post_content;
 		}
 		return $content;
+	}
+
+	/**
+	 * Generate links
+	 * @return string
+	 */
+	public function tagsLink()
+	{
+		$aTags = $this->tags;
+		if (is_array($aTags))
+		{
+			foreach ($aTags as $i=>$oTag)
+			{
+				$aTags[$i] = CHtml::link(
+					$oTag->name,
+					Yii::app()->createUrl('tag/' . $oTag->name),
+					array(
+						'class' => 'tags',
+					)
+				);
+			}
+			return implode(', ', $aTags);
+		}
 	}
 }
