@@ -39,7 +39,7 @@ $cs->registerScriptFile('/static/js/fancybox/jquery.fancybox-1.3.4.pack.js', CCl
 <div id="comments">
 	<?php if ( ! empty($model->commentCount) && $model->commentCount >= 1): ?>
 		<h3>
-			<?php echo $model->commentCount . ' ' . Yii::t('test', 'комментарий|комментария|комментариев', $model->commentCount);?>:
+			<?php echo Yii::t('Comment', '{n} comment|{n} comments', $model->commentCount); ?>:
 		</h3>
 		<a name="comments"></a>
 		<?php $this->renderPartial('_comments',array(

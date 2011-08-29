@@ -6,4 +6,7 @@ return array(
 	'Author' => 'Автор',
 	'Url' => 'Url',
 	'Post' => 'Пост',
+
+
+	'{n} comment|{n} comments' => '{n} комментарий|{n} комментария|{n} комментариев',
 );

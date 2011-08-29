@@ -10,4 +10,6 @@ return array(
 	'Refresh' => 'Обновить',
 	'The code is case-sensitive' => 'Код регистро-зависимый',
 	'Verify code' => 'Код подтверждения',
+
+	'Fields with <span class="required">*</span> are required' => 'Поля со <span class="required">*</span> обязательны',
 );
