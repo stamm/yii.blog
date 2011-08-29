@@ -1,50 +1,9 @@
-<div class="view">
+<div class="note">
 
-	<b><?php echo CHtml::encode($data->getAttributeLabel('id')); ?>:</b>
-	<?php echo CHtml::link(CHtml::encode($data->id), array('view', 'id'=>$data->id)); ?>
-	<br />
-
-	<b><?php echo CHtml::encode($data->getAttributeLabel('title')); ?>:</b>
-	<?php echo CHtml::encode($data->title); ?>
-	<br />
-
-	<b><?php echo CHtml::encode($data->getAttributeLabel('content')); ?>:</b>
-	<?php echo CHtml::encode($data->content); ?>
-	<br />
-
-	<b><?php echo CHtml::encode($data->getAttributeLabel('content_display')); ?>:</b>
-	<?php echo CHtml::encode($data->content_display); ?>
-	<br />
-
-	<b><?php echo CHtml::encode($data->getAttributeLabel('status')); ?>:</b>
-	<?php echo CHtml::encode($data->status); ?>
-	<br />
-
-	<b><?php echo CHtml::encode($data->getAttributeLabel('create_time')); ?>:</b>
-	<?php echo CHtml::encode($data->create_time); ?>
-	<br />
-
-	<b><?php echo CHtml::encode($data->getAttributeLabel('update_time')); ?>:</b>
-	<?php echo CHtml::encode($data->update_time); ?>
-	<br />
-
-	<?php /*
-	<b><?php echo CHtml::encode($data->getAttributeLabel('post_time')); ?>:</b>
-	<?php echo CHtml::encode($data->post_time); ?>
-	<br />
-
-	<b><?php echo CHtml::encode($data->getAttributeLabel('author_id')); ?>:</b>
-	<?php echo CHtml::encode($data->author_id); ?>
-	<br />
-
-	<b><?php echo CHtml::encode($data->getAttributeLabel('url')); ?>:</b>
-	<?php echo CHtml::encode($data->url); ?>
-	<br />
-
-	<b><?php echo CHtml::encode($data->getAttributeLabel('short_url')); ?>:</b>
-	<?php echo CHtml::encode($data->short_url); ?>
-	<br />
-
-	*/ ?>
+	<p><?php echo date('Y-m-d H:i', $data->update_time); ?></p>
+	<h1><?php echo CHtml::link($data->title, $data->getLink()); ?></h1>
+	<div class="text">
+		<?php echo $data->content_display; ?>
+	</div>
 
 </div>

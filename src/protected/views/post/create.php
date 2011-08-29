@@ -1,15 +1,18 @@
 <?php
+
+$this->pageTitle = Yii::t('Post', 'Create Post');
+
 $this->breadcrumbs=array(
-	'Posts'=>array('index'),
-	'Create',
+	Yii::t('Post', 'Posts')=>array('index'),
+	Yii::t('All', 'Create'),
 );
 
 $this->menu=array(
-	array('label'=>'List Post', 'url'=>array('index')),
-	array('label'=>'Manage Post', 'url'=>array('admin')),
+	array('label'=>Yii::t('Post', 'List Post'), 'url'=>array('index')),
+	array('label'=>Yii::t('Post', 'Manage Post'), 'url'=>array('admin')),
 );
 ?>
 
-<h1>Create Post</h1>
+<h1><?php echo Yii::t('Post', 'Create Post');?></h1>
 
 <?php echo $this->renderPartial('_form', array('model'=>$model)); ?>

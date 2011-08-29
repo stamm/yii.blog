@@ -2,7 +2,7 @@
 return array(
 	'Title' => 'Заголовок',
 	'Content' => 'Текст',
-	'Content Display' => '',
+	'Content Display' => 'Текст в HTML',
 	'Status' => 'Статус',
 	'Create Time' => 'Время создания',
 	'Update Time' => 'Время обновления',
@@ -14,4 +14,8 @@ return array(
 	'Posts' => 'Посты',
 	'Create Post' => 'Создать пост',
 	'Manage Post' => 'Управление постами',
+	'List Post' => 'Список постов',
+	'Update Post' => 'Обновить пост',
+	'Delete Post' => 'Удалить пост',
+	'Manage' => 'Управление',
 );

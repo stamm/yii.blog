@@ -56,6 +56,11 @@
 		<?php echo $form->labelEx($model,'url'); ?>
 		<?php echo $form->textField($model,'url',array('size'=>60,'maxlength'=>255)); ?>
 		<?php echo $form->error($model,'url'); ?>
+		<?php
+			$cs=Yii::app()->clientScript;
+			$cs->registerCoreScript('synctranslit');
+			$cs->registerScript('url-translit', '$("#Post_title").syncTranslit({destination: "Post_url"});', CClientScript::POS_READY);
+		?>
 	</div>
 
 	<div class="row buttons">

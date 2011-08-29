@@ -11,6 +11,7 @@ return CMap::mergeArray(
 		'name'=>'Yii Blog',
 		'sourceLanguage' => 'en_us',
 		'language' => 'ru',
+		'defaultController'=>'post',
 
 		// preloading 'log' component
 		'preload'=>array('log'),
@@ -56,6 +57,23 @@ return CMap::mergeArray(
 				'showScriptName'=>false,
 				'urlSuffix'=>'/',
 				'rules'=>array(
+					'<view:about>' => 'site/page',
+					'post/<action:create|admin>'=>'post/<action>',
+					'post/<id:\d+>'=>'post/view',
+					'post/<url:[^\/]+>'=>'post/view',
+					'find'=>'post/find',
+					'<id:\d+>'=>'post/view',
+					'posts/page/<page:\d+>'=>'post/index',
+					'posts'=>'post/index',
+					'posts/<tag:.*?>'=>'post/index',
+					'tag/<tag:.*?>'=>'post/index',
+					'post/update/<id:\d+>'=>'post/update',
+					'<action:(login|logout)>' => 'site/<action>',
+					'sitemap\.xml' => 'post/sitemap',
+					'gii' => 'gii',
+					'rss' => 'rss/index',
+					'<url:[^\/]+>' => 'post/view',
+					'<url:[^\/]+>/rss' => 'rss/post',
 				),
 			),
 
@@ -103,7 +121,15 @@ return CMap::mergeArray(
 				'scriptMap'=>array(
 					'jquery.js'=>'http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.js',
 					'jquery.min.js'=>'http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js',
-				)
+					'jquery.synctranslit.js' => '/static/js/synctranslit/jquery.synctranslit.js',
+					'jquery.synctranslit.js' => '/static/js/synctranslit/jquery.synctranslit.min.js',
+				),
+				'packages' => array(
+					'synctranslit' => array(
+						'js'=>array(YII_DEBUG ? 'jquery.synctranslit.js' : 'jquery.synctranslit.min.js'),
+						'depends'=>array('jquery'),
+					)
+				),
 			),
 		),
 

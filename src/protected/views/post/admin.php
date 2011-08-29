@@ -1,12 +1,12 @@
 <?php
 $this->breadcrumbs=array(
-	'Posts'=>array('index'),
-	'Manage',
+	Yii::t('Post', 'Posts')=>array('index'),
+	Yii::t('Post', 'Manage'),
 );
 
 $this->menu=array(
-	array('label'=>'List Post', 'url'=>array('index')),
-	array('label'=>'Create Post', 'url'=>array('create')),
+	array('label'=>Yii::t('Post', 'List Post'), 'url'=>array('index')),
+	array('label'=>Yii::t('Post', 'Create Post'), 'url'=>array('create')),
 );
 
 Yii::app()->clientScript->registerScript('search', "
@@ -42,12 +42,19 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
 	'columns'=>array(
-		'id',
 		'title',
-		'content',
-		'content_display',
-		'status',
-		'create_time',
+		'content_display:html',
+		array(
+			'name' => 'status',
+			'filter' => Lookup::items('PostStatus'),
+			'type' => 'raw',
+			'value' => 'Lookup::item("PostStatus", $data->status)',
+		),
+		array(
+			'name' => 'post_time',
+			'type' => 'raw',
+			'value' => 'date("Y-m-d H:i:s", $data->post_time)',
+		),
 		/*
 		'update_time',
 		'post_time',

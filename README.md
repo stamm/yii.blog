@@ -13,3 +13,4 @@ License (BSD)
 * Yii extensions:
 * [Markitup widget](https://github.com/yiiext/markitup-widget)
 * [Yii Debug Toolbar](https://github.com/cr0t/yiidebugtb)
+* [syncTranslit](http://snowcore.net/synctranslit)

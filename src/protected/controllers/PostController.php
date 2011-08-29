@@ -44,10 +44,44 @@ class PostController extends Controller
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed
 	 */
-	public function actionView($id)
+	public function actionView($id=0, $url='')
 	{
+		if ($url)
+		{
+			$oPost = Post::model()->scopePublished()->find(array(
+				'condition' => 'url = :url',
+				'params' => array(
+					':url' => $url,
+				)
+			));
+		}
+		else
+		{
+			$oPost = $this->loadModel($id);
+			$this->redirect('/' . $oPost->url);
+		}
+		if ( ! $oPost)
+		{
+			throw new CHttpException(404);
+		}
+
+		// rss for comments
+		Yii::app()->clientScript->registerLinkTag(
+			'alternate',
+			'application/rss+xml',
+			Yii::app()->createAbsoluteUrl($oPost->getLink(true)) . '/rss/',
+			null,
+			array(
+				'title' => 'Комментарии к статье: ' . $oPost->title,
+			)
+		);
+		$this->pageTitle = $oPost->title;
+		#$aComments = $oPost->comments;
+		#$oComment = $this->newComment($oPost);
 		$this->render('view',array(
-			'model'=>$this->loadModel($id),
+			'model'=>$oPost,
+			'comment' => '',
+			'aComments' => '',
 		));
 	}
 
@@ -68,6 +102,11 @@ class PostController extends Controller
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->id));
 		}
+		elseif ( ! $model->post_time)
+		{
+			$model->post_time = date('Y-m-d');
+		}
+
 
 		$this->render('create',array(
 			'model'=>$model,
@@ -91,6 +130,10 @@ class PostController extends Controller
 			$model->attributes=$_POST['Post'];
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->id));
+		}
+		else
+		{
+			$model->post_time = date('Y-m-d', $model->post_time);
 		}
 
 		$this->render('update',array(
@@ -121,9 +164,57 @@ class PostController extends Controller
 	/**
 	 * Lists all models.
 	 */
-	public function actionIndex()
+	public function actionIndex($tag=null)
 	{
-		$dataProvider=new CActiveDataProvider('Post');
+		$criteria=new CDbCriteria(array(
+			'order'=>'create_time DESC',
+			'scopes' => 'scopePublished',
+		));
+		// Если это тэг
+		if (isset($tag))
+		{
+			if ($oTag = Tag::model()->findByAttributes(array(
+				'name' => $tag,
+			)))
+			{
+				$aPostIds = Yii::app()->db->createCommand()
+					->select('post_id')
+					->from('{{post_tag}}')
+					->where('tag_id = :tagId', array(
+						'tagId' => $oTag->id,
+					))
+					->queryColumn();
+				$criteria->addInCondition('t.id', $aPostIds);
+			}
+			else
+			{
+				$criteria->addCondition('id = 0');
+				throw new CHttpException(404, Yii::t('all', 'No such tag'));
+			}
+		}
+
+		//if (($dataProvider=Yii::app()->cache->get("PostsList1")) === false)
+		//{
+			$dataProvider = new CActiveDataProvider('Post', array(
+				'pagination'=>array(
+					'pageSize'=>Yii::app()->params['postsPerPage'],
+					'pageVar' => 'page',
+					'params' => array(),
+				),
+				'criteria'=>$criteria,
+			));
+
+/*			Yii::app()->cache->set("PostsList1",
+				$dataProvider->data,
+				2
+				//DBDependency::GetTbDependency(Goods::model()->tableName())
+			);
+		}
+		else
+		{
+			$dataProvider = new CArrayDataProvider($dataProvider);
+		}
+*/
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
 		));

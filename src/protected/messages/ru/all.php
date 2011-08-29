@@ -5,4 +5,5 @@ return array(
 	'Login' => 'Войти',
 	'Posts' => 'Посты',
 	'Operations' => 'Действия',
+	'No such tag' => 'Такого тэга нет',
 );

@@ -56,7 +56,7 @@ class Post extends CActiveRecord
 		return array(
 			array('title, content, status, url, post_time', 'required'),
 			array('url', 'unique'),
-			array('status, create_time, update_time, post_time, author_id', 'numerical', 'integerOnly'=>true),
+			array('status, create_time, update_time, author_id', 'numerical', 'integerOnly'=>true),
 			array('url', 'in', 'range' => self::$aDisabledTitle, 'not'=>true, 'message' => 'Not allowed to use this url'),
 			array('title', 'length', 'max'=>128),
 			array('url', 'length', 'max'=>255),
@@ -77,6 +77,17 @@ class Post extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'author' => array(self::BELONGS_TO, 'User', 'author_id'),
+			'comments' => array(self::HAS_MANY, 'Comment', 'post_id',
+				'condition'=>'comments.status='.Comment::STATUS_APPROVED,
+				'order'=>'comments.create_time ASC'),
+			'commentCount' => array(self::STAT, 'Comment', 'post_id',
+				'condition'=>'status='.Comment::STATUS_APPROVED),
+			'tags' => array(
+				self::MANY_MANY,
+				'Tag',
+				'{{post_tag}}(post_id, tag_id)'
+			),
 		);
 	}
 
@@ -217,6 +228,39 @@ class Post extends CActiveRecord
 		Comment::model()->deleteAll(array('post_id = :postId'), array(':postId' => $this->id));
 		//Tag::model()->updateFrequency($this->tags, '');
 	}
+
+
+	/**
+	 * Adds a new comment to this post.
+	 * This method will set status and post_id of the comment accordingly.
+	 * @param Comment the comment to be added
+	 * @return boolean whether the comment is saved successfully
+	 */
+	public function addComment($comment)
+	{
+		if ( ! empty(Yii::app()->params['commentNeedApproval']))
+		{
+			$comment->status = Comment::STATUS_PENDING;
+		}
+		else
+		{
+			$comment->status = Comment::STATUS_APPROVED;
+		}
+		$comment->post_id = $this->id;
+		$comment->ip = Yii::app()->request->userHostAddress;
+		if ($comment->save())
+		{
+
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+
+
 
 		/**
 	 * Получить Id
