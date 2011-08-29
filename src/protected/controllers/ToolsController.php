@@ -12,4 +12,15 @@ class ToolsController extends Controller
 		$sHtml = Post::render($sHtml);
 		$this->renderText($sHtml);
 	}
+
+	public function actionTagsAutocomplete()
+	{
+		$sQuery = Yii::app()->getRequest()->getParam('query');
+
+		if (Yii::app()->request->isAjaxRequest && $sQuery)
+		{
+			echo CJSON::encode(Tag::getTags($sQuery));
+			Yii::app()->end();
+		}
+	}
 }

@@ -65,15 +65,35 @@
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'tags_string'); ?>
-				<?php
+		<?php
 			$this->widget('zii.widgets.jui.CJuiAutoComplete', array(
 				'model'=>$model,
 				'attribute'=>'tags_string',
 				'value'=>$model->tags_string,
-				'source'=>Tag::model()->getTags(),
-				// additional javascript options for the autocomplete plugin
-				'options'=>array(
-					'minLength'=>'2',
+				'source' =>'js:function(request, response) {
+					jQuery.getJSON("'.$this->createUrl('tools/tagsautocomplete').'", {
+						query: request.term.split(/,s*/).pop()
+					}, response);
+				}',
+				'options' => array(
+					'minLength' => '2',
+					'showAnim' => 'fold',
+					'search' =>'js: function() {
+						var term = this.value.split(/,s*/).pop();
+						if(term.length < 2)
+							return false;
+					 }',
+					'focus' =>'js: function() {
+						return false;
+					 }',
+					'select' =>'js: function(event, ui) {
+						var terms =  this.value.split(/,s*/);
+						terms.pop();
+						terms.push(ui.item.value);
+						terms.push("");
+						this.value = terms.join(", ");
+						return false;
+					}',
 				),
 				'htmlOptions'=>array(
 					'style'=>'height:20px;'

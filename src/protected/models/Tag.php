@@ -93,17 +93,16 @@ class Tag extends CActiveRecord
 	 * @param int $limit
 	 * @return array
 	 */
-	public function getTags($search = '', $limit = 10)
+	static public function getTags($search = '', $limit = 10)
 	{
-		$aModels = self::model()->findAll(array(
+		$oCriteria = new CDbCriteria(array(
 			'select' => 'name',
-			/*'condition' => 'name LIKE :name',
-			'params' => array(
-				':name' => '%', $search . '%',
-			),*/
 			'order' => 'name',
 			'limit' => $limit,
 		));
+		//$oCriteria->addSearchCondition('name', '%' . $search . '%');
+		$oCriteria->addSearchCondition('name', $search);
+		$aModels = self::model()->findAll($oCriteria);
 		$aResult = array();
 		if (is_array($aModels) && count($aModels))
 		{
