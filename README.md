@@ -1,6 +1,7 @@
 # Blog engine
 Please, don't forget to:
     git submodule update --init --recursive
+    cd /src/protected/ && ./yiic migrate
 
 ## Copyright
 
