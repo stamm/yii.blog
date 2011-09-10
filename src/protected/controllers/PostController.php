@@ -46,6 +46,7 @@ class PostController extends Controller
 	 */
 	public function actionView($id=0, $url='')
 	{
+		CMarkdown::registerCssFile();
 		if ($url)
 		{
 			$oPost = Post::model()->scopePublished()->find(array(
@@ -184,6 +185,7 @@ class PostController extends Controller
 	 */
 	public function actionIndex($tag=null)
 	{
+		CMarkdown::registerCssFile();
 		// Get last update_time of post for cache dependency
 		$iDependencyPost = Post::model()->find(array(
 			'select' => 'MAX(update_time) AS update_time',

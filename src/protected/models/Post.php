@@ -340,40 +340,9 @@ class Post extends CActiveRecord
 	static function render($content)
 	{
 		$oMarkdown = new CMarkdown;
-		$content_display = self::getContentForDisplay($content);
+		$content_display = $content;
 		$content_display = $oMarkdown->transform($content_display);
 		return $content_display;
-	}
-
-	/**
-	 * Highlight Code Between <code lang="php"></code> blocks.
-	 *
-	 * @param string $content
-	 */
-	static public function getContentForDisplay($content)
-	{
-		$find = '~<code(?: lang="([a-z0-9]+)")?>(.+?)</code>~is';
-		while (preg_match($find, $content, $preg, PREG_OFFSET_CAPTURE))
-		{
-			$lang = $preg[1][0];
-			if ( ! $lang)
-			{
-				$lang = 'php';
-			}
-			$pre_content = substr($content, 0, $preg[0][1]);
-			$post_content = substr($content, $preg[0][1] + strlen($preg[0][0]));
-
-			$preg[2][0] = str_replace("\t", '  ', $preg[2][0]);
-
-			$geshi = new GeSHi(trim($preg[2][0], "\n\r"), $lang);
-			/*$geshi->enable_classes();
-			file_put_contents('geshi.css', $geshi->get_stylesheet(false));*/
-			$geshi->set_overall_class('code');
-			$geshi->set_header_type(GESHI_HEADER_DIV);
-			$code = $geshi->parse_code();
-			$content = $pre_content . $code . $post_content;
-		}
-		return $content;
 	}
 
 	/**
