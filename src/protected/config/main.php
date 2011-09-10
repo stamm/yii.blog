@@ -35,6 +35,9 @@ return CMap::mergeArray(
 			'authManager'=>array(
 				'class'=>'CDbAuthManager',
 				'connectionID'=>'db',
+				'assignmentTable' => 'tbl_auth_assignment',
+				'itemTable' => 'tbl_auth_item',
+				'itemChildTable' => 'tbl_auth_item_child',
 			),
 
 			'request'=>array(
