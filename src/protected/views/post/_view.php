@@ -1,7 +1,7 @@
 <div class="note">
 
-	<p><?php echo date('Y-m-d H:i', $data->update_time); ?></p>
 	<h1><?php echo CHtml::link($data->title, $data->getLink()); ?></h1>
+	<span><?php echo Yii::app()->dateFormatter->format('d MMMM', $data->update_time); ?></span>
 	<div class="text">
 		<?php echo $data->content_display; ?>
 	</div>

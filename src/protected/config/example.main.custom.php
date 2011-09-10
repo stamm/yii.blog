@@ -28,6 +28,7 @@ return array(
 			'class'=>'CMemCache',
 			'servers'=>array(
 				array(
+					#'host'=>'unix:///tmp/memcached.sock', 'port'=>NULL
 					'host'=>'127.0.0.1',
 					'port'=>11211,
 				),
@@ -42,7 +43,9 @@ return array(
 			'charset' => 'utf8',
 			'tablePrefix' => 'tbl_',
 			//TODO: в продакешене поставить
-			'schemaCachingDuration'=>0,
+			'schemaCachingDuration'=>360,
+			'enableProfiling'=>true,
+			'enableParamLogging' => true,
 		),
 
 		'errorHandler'=>array(
@@ -54,6 +57,17 @@ return array(
 			'class'=>'CLogRouter',
 			'routes'=>array(
 				array(
+						'class' => 'CProfileLogRoute',
+				),
+				array(
+						'class' => 'CEmailLogRoute',
+						'categories' => 'example',
+						'levels' => CLogger::LEVEL_ERROR,
+						'emails' => array('stammru@gmail.com'),
+						//'sentFrom' => 'log@example.com',
+						'subject' => 'Error at example.com',
+				),
+				array(
 					'class'=>'CFileLogRoute',
 					//'levels'=>'error, warning, trace, info, profile',
 					'levels'=>'error, warning, info, profile',
@@ -61,12 +75,11 @@ return array(
 				),
 				array(
 					'class'=>'CWebLogRoute',
-					'levels'=>'error, warning',
 				),
 				// configuration for the toolbar
 				array(
 					'class'=>'XWebDebugRouter',
-					'config'=>'alignLeft, opaque, runInDebug, fixedPos,  yamlStyle',
+					'config'=>'alignRight, opaque, runInDebug, fixedPos,  yamlStyle',
 					'levels'=>'error, warning, trace, profile, info',
 					'allowedIPs'=>array('127.0.0.1'),
 				),

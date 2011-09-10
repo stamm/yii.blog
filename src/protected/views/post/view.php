@@ -23,7 +23,7 @@ $cs->registerScriptFile('/static/js/fancybox/jquery.fancybox-1.3.4.pack.js', CCl
 
 
 <h1 class="inline"><?php echo CHtml::link(CHtml::encode($model->title), array('view', 'id'=>$model->id, 'title'=>$model->title)); ?></h1>
-<span class="hint"><?php echo date('Y-m-d', $model->post_time); ?></span>
+<span class="hint"><?php echo Yii::app()->dateFormatter->format('d MMMM', $model->post_time); ?></span>
 
 <div class="article">
 	<?php echo $model->content_display; ?>

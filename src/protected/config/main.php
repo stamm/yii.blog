@@ -57,6 +57,7 @@ return CMap::mergeArray(
 				'showScriptName'=>false,
 				'urlSuffix'=>'/',
 				'rules'=>array(
+					'/' => 'post/index',
 					'<view:about>' => 'site/page',
 					'post/<action:create|admin>'=>'post/<action>',
 					'post/<id:\d+>'=>'post/view',
@@ -85,6 +86,7 @@ return CMap::mergeArray(
 				'charset' => 'utf8',
 				'tablePrefix' => 'tbl_',
 				'schemaCachingDuration'=>360,
+				'autoConnect' => false,
 			),
 
 			'cache'=>array(
@@ -95,6 +97,13 @@ return CMap::mergeArray(
 						'port'=>11211,
 					),
 				),
+			),
+			'session' => array(
+				'class' => 'CCacheHttpSession',
+				'cacheID' => 'sessionCache',
+			),
+			'sessionCache' => array(
+				'class' => 'CApcCache',
 			),
 
 			'errorHandler'=>array(
@@ -108,12 +117,7 @@ return CMap::mergeArray(
 						'class'=>'CFileLogRoute',
 						'levels'=>'error, warning',
 					),
-					// uncomment the following to show log messages on web pages
-					/*
-					array(
-						'class'=>'CWebLogRoute',
-					),
-					*/
+
 				),
 			),
 
@@ -136,7 +140,7 @@ return CMap::mergeArray(
 		// application-level parameters that can be accessed
 		// using Yii::app()->params['paramName']
 		'params'=>array(
-			// this is used in contact page
+			'cacheTime' => 3600,
 			'adminEmail'=>'webmaster@example.com',
 		),
 	),

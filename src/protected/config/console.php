@@ -6,6 +6,7 @@ $aConfig = CMap::mergeArray(
 	CMap::mergeArray(
 		require(dirname(__FILE__).'/main.php'),
 		array(
+			'defaultController' => '',
 			'components'=>array(
 				'log'=>array(
 					'class'=>'CLogRouter',
@@ -29,5 +30,6 @@ foreach( $aConfig['components']['log']['routes'] as $k => $v ){
 		unset( $aConfig['components']['log']['routes'][$k] );
 	}
 }
+unset($aConfig['defaultController']);
 
 return $aConfig;

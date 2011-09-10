@@ -264,7 +264,7 @@ class Post extends CActiveRecord
 
 
 
-		/**
+	/**
 	 * Получить Id
 	 * @param string $sSearch
 	 * @param bool $bOrderByDate

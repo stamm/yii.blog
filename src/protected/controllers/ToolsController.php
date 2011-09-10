@@ -13,6 +13,10 @@ class ToolsController extends Controller
 		$this->renderText($sHtml);
 	}
 
+	/**
+	 * Return tags for autocomplete
+	 * @return void
+	 */
 	public function actionTagsAutocomplete()
 	{
 		$sQuery = Yii::app()->getRequest()->getParam('query');

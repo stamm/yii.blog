@@ -31,7 +31,7 @@ class PostController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow admin user
-				'actions'=>array('create','update', 'admin','delete'),
+				'actions'=>array('create','update', 'admin', 'delete'),
 				'roles'=>array('admin'),
 			),
 			array('deny',  // deny all users
@@ -141,11 +141,11 @@ class PostController extends Controller
 					$aTags[] = $oTag->name;
 				}
 			}
-		}
-
-		if ( ! isset($_POST['Post']) || ! $model->post_time)
-		{
-			$model->post_time = date('Y-m-d', $model->post_time);
+			//Set post time field default to today
+			if ( ! $model->post_time)
+			{
+				$model->post_time = date('Y-m-d', $model->post_time);
+			}
 		}
 
 		$model->tags_string = Tag::array2string($aTags);
@@ -177,22 +177,36 @@ class PostController extends Controller
 	}
 
 	/**
-	 * Lists all models.
+	 * Lists all posts
+	 * @throws CHttpException
+	 * @param null $tag
+	 * @return void
 	 */
 	public function actionIndex($tag=null)
 	{
+		// Get last update_time of post for cache dependency
+		$iDependencyPost = Post::model()->find(array(
+			'select' => 'MAX(update_time) AS update_time',
+		));
+		$iDependencyPost = $iDependencyPost ? $iDependencyPost->update_time : 0;
+		Yii::app()->setGlobalState('post.update_time', $iDependencyPost);
+		$dependencyPost = new CGlobalStateCacheDependency('post.update_time');
+
+		$dependencyTag = new CDbCacheDependency('SELECT MAX(id) FROM {{tag}}');
+
+
 		$criteria=new CDbCriteria(array(
 			'order'=>'create_time DESC',
 			'scopes' => 'scopePublished',
 		));
-		// Если это тэг
+		// If use tag
 		if (isset($tag))
 		{
-			if ($oTag = Tag::model()->findByAttributes(array(
+			if ($oTag = Tag::model()->cache(Yii::app()->params['cacheTime'], $dependencyTag)->findByAttributes(array(
 				'name' => $tag,
 			)))
 			{
-				$aPostIds = Yii::app()->db->createCommand()
+				$aPostIds = Yii::app()->db->cache(Yii::app()->params['cacheTime'], $dependencyPost)->createCommand()
 					->select('post_id')
 					->from('{{post_tag}}')
 					->where('tag_id = :tagId', array(
@@ -208,28 +222,15 @@ class PostController extends Controller
 			}
 		}
 
-		//if (($dataProvider=Yii::app()->cache->get("PostsList1")) === false)
-		//{
-			$dataProvider = new CActiveDataProvider('Post', array(
-				'pagination'=>array(
-					'pageSize'=>Yii::app()->params['postsPerPage'],
-					'pageVar' => 'page',
-					'params' => array(),
-				),
-				'criteria'=>$criteria,
-			));
+		$dataProvider = new CActiveDataProvider(Post::model()->cache(Yii::app()->params['cacheTime'], $dependencyPost, 2), array(
+			'pagination'=>array(
+				'pageSize'=>Yii::app()->params['postsPerPage'],
+				'pageVar' => 'page',
+				'params' => array(),
+			),
+			'criteria'=>$criteria,
+		));
 
-/*			Yii::app()->cache->set("PostsList1",
-				$dataProvider->data,
-				2
-				//DBDependency::GetTbDependency(Goods::model()->tableName())
-			);
-		}
-		else
-		{
-			$dataProvider = new CArrayDataProvider($dataProvider);
-		}
-*/
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
 		));
