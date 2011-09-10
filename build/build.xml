@@ -35,5 +35,18 @@
 		<chmod file="${dst_dir}/protected/runtime" mode="0777" />
 	</target>
 
+	<target name="test">
+		<echo>Phpunit tests start</echo>
+		<exec dir="${src_dir}/protected" command="./yiic migrate up --connectionID=db_test" />
+		<exec command="cd ${src_dir}/protected/tests"/>
+		<phpunit bootstrap="${src_dir}/protected/tests/bootstrap.php" haltonfailure="true" haltonerror="true" printsummary="true">
+			 <batchtest>
+				<fileset dir="${src_dir}/protected/tests/unit">
+					<include name="*Test.php"/>
+				</fileset>
+			</batchtest>
+		</phpunit>
+	</target>
+
 	<target name="build" depends="copy,make_dir,clear_cache_dir" />
 </project>
