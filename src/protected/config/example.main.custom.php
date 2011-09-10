@@ -43,7 +43,7 @@ return array(
 			'charset' => 'utf8',
 			'tablePrefix' => 'tbl_',
 			//TODO: в продакешене поставить
-			'schemaCachingDuration'=>360,
+			'schemaCachingDuration'=>0,
 			'enableProfiling'=>true,
 			'enableParamLogging' => true,
 		),

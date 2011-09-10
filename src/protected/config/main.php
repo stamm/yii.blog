@@ -44,6 +44,10 @@ return CMap::mergeArray(
 				'enableCookieValidation'=>true,
 			),
 
+			'assetManager'=>array(
+				'linkAssets' => true,
+			),
+
 //			'session'=>array(
 //				/*'class' => 'CDbHttpSession',
 //				'connectionID' => 'db',
@@ -60,22 +64,24 @@ return CMap::mergeArray(
 				'showScriptName'=>false,
 				'urlSuffix'=>'/',
 				'rules'=>array(
+					// When you add some rule for here - add same one to Post::$aDisabledTitle
 					'/' => 'post/index',
-					'<view:about>' => 'site/page',
 					'post/<action:create|admin>'=>'post/<action>',
+					'post/update/<id:\d+>'=>'post/update',
 					'post/<id:\d+>'=>'post/view',
 					'post/<url:[^\/]+>'=>'post/view',
 					'find'=>'post/find',
-					'<id:\d+>'=>'post/view',
 					'posts/page/<page:\d+>'=>'post/index',
-					'posts'=>'post/index',
-					'posts/<tag:.*?>'=>'post/index',
+					'posts(/<tag:.*?>)?'=>'post/index',
 					'tag/<tag:.*?>'=>'post/index',
-					'post/update/<id:\d+>'=>'post/update',
+
+					'<view:about>' => 'site/page',
 					'<action:(login|logout)>' => 'site/<action>',
+					
 					'sitemap\.xml' => 'post/sitemap',
 					'gii' => 'gii',
 					'rss' => 'rss/index',
+					'<id:\d+>'=>'post/view',
 					'<url:[^\/]+>' => 'post/view',
 					'<url:[^\/]+>/rss' => 'rss/post',
 				),
