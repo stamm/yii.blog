@@ -59,7 +59,7 @@ class PostController extends Controller
 		else
 		{
 			$oPost = $this->loadModel($id);
-			$this->redirect('/' . $oPost->url);
+			//$this->redirect('/' . $oPost->url);
 		}
 		if ( ! $oPost)
 		{
@@ -144,6 +144,10 @@ class PostController extends Controller
 			}
 			//Set post time field default to today
 			if ( ! $model->post_time)
+			{
+				$model->post_time = date('Y-m-d');
+			}
+			else
 			{
 				$model->post_time = date('Y-m-d', $model->post_time);
 			}
@@ -245,6 +249,10 @@ class PostController extends Controller
 	{
 		$model=new Post('search');
 		$model->unsetAttributes();  // clear any default values
+		// By default sort by id
+		$model->getDbCriteria()->mergeWith(array(
+			'order' => 'id DESC',
+		));
 		if(isset($_GET['Post']))
 			$model->attributes=$_GET['Post'];
 

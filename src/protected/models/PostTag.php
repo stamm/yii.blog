@@ -6,6 +6,8 @@
  * The followings are the available columns in table '{{post_tag}}':
  * @property string $tag_id
  * @property string $post_id
+ * @property Post $post
+ * @property Tag $tag
  */
 class PostTag extends CActiveRecord
 {

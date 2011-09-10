@@ -25,9 +25,9 @@ class Post extends CActiveRecord
 	/** @var string Tags separated comma*/
 	public $tags_string;
 
-	/** @var array */
+	/** @var array Disabled title for sets pages */
 	static public $aDisabledTitle = array(
-		'login', 'logout', 'post', 'posts', 'pages', 'gii', 'tag', 'about', 'find',
+		'login', 'logout', 'post', 'posts', 'pages', 'gii', 'tag', 'about', 'find', 'gii', 'sitemap.xml', 'rss',
 	);
 
 	/**
@@ -198,26 +198,24 @@ class Post extends CActiveRecord
 		{
 			// Delete old tags
 			PostTag::model()->deleteAll('post_id = :postId', array(':postId' => $this->id));
-			if ($this->status == self::STATUS_PUBLISHED)
+			$aNewTags = Tag::string2array($this->tags_string);
+			// Set tags
+			foreach ($aNewTags as $sTag)
 			{
-				// Set tags
-				foreach (Tag::string2array($this->tags_string) as $sTag)
+				$oPostTag = new PostTag;
+				$oPostTag->post_id = $this->id;
+				if ($oTag = Tag::model()->findByAttributes(array('name'=> $sTag)))
 				{
-					$oPostTag = new PostTag;
-					$oPostTag->post_id = $this->id;
-					if ($oTag = Tag::model()->findByAttributes(array('name'=> $sTag)))
-					{
-						$oPostTag->tag_id = $oTag->id;
-					}
-					else
-					{
-						$oTag = new Tag;
-						$oTag->name = $sTag;
-						$oTag->save();
-						$oPostTag->tag_id = $oTag->id;
-					}
-					$oPostTag->save();
+					$oPostTag->tag_id = $oTag->id;
 				}
+				else
+				{
+					$oTag = new Tag;
+					$oTag->name = $sTag;
+					$oTag->save();
+					$oPostTag->tag_id = $oTag->id;
+				}
+				$oPostTag->save();
 			}
 		}
 		parent::afterSave();
