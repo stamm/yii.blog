@@ -12,6 +12,7 @@ License (BSD)
 ## 3rdparty
 
 * [Yii](http://yiiframework.com)
+* [syncTranslit](http://snowcore.net/synctranslit)
 
 Yii extensions:
 
