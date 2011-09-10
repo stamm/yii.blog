@@ -4,7 +4,7 @@ $this->pageTitle = Yii::t('Post', 'Create Post');
 
 $this->breadcrumbs=array(
 	Yii::t('Post', 'Posts')=>array('index'),
-	Yii::t('All', 'Create'),
+	Yii::t('All', Yii::t('all', 'Create')),
 );
 
 $this->menu=array(

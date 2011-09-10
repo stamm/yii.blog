@@ -2,14 +2,14 @@
 $this->breadcrumbs=array(
 	Yii::t('all','Posts')=>array('index'),
 	$model->title=>array('view','id'=>$model->id),
-	'Update',
+	Yii::t('all', 'Update'),
 );
 
 $this->menu=array(
-	array('label'=>'List Post', 'url'=>array('index')),
-	array('label'=>'Create Post', 'url'=>array('create')),
-	array('label'=>'View Post', 'url'=>array('view', 'id'=>$model->id)),
-	array('label'=>'Manage Post', 'url'=>array('admin')),
+	array('label'=>Yii::t('Post', 'List Post'), 'url'=>array('index')),
+	array('label'=>Yii::t('Post', 'Create Post'), 'url'=>array('create')),
+	array('label'=>Yii::t('Post', 'View Post'), 'url'=>array('view', 'id'=>$model->id)),
+	array('label'=>Yii::t('Post', 'Manage Post'), 'url'=>array('admin')),
 );
 ?>
 

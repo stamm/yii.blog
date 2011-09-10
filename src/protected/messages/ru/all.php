@@ -1,6 +1,7 @@
 <?php
 return array(
 	'Create' => 'Создать',
+	'Update' => 'Обновить',
 	'Save' => 'Сохранить',
 	'Login' => 'Войти',
 	'Posts' => 'Посты',
