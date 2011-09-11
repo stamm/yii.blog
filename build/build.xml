@@ -37,7 +37,7 @@
 
 	<target name="test">
 		<echo>Phpunit tests start</echo>
-		<exec dir="${src_dir}/protected" command="./yiic migrate up --connectionID=db_test" />
+		<exec dir="${src_dir}/protected" command="./yiic migrate up --connectionID=db_test --interactive=0" />
 		<exec command="cd ${src_dir}/protected/tests"/>
 		<phpunit bootstrap="${src_dir}/protected/tests/bootstrap.php" haltonfailure="true" haltonerror="true" printsummary="true">
 			 <batchtest>
