@@ -67,7 +67,7 @@ return CMap::mergeArray(
 					// When you add some rule for here - add same one to Post::$aDisabledTitle
 					'/' => 'post/index',
 					'post/<action:create|admin>'=>'post/<action>',
-					'post/update/<id:\d+>'=>'post/update',
+					'post/<action:update|delete>/<id:\d+>'=>'post/<action>',
 					'post/<id:\d+>'=>'post/view',
 					'post/<url:[^\/]+>'=>'post/view',
 					'find'=>'post/find',

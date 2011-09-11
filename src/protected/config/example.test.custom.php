@@ -1,9 +1,6 @@
 <?php
 return array(
 	'components'=>array(
-		'fixture'=>array(
-			'class'=>'system.test.CDbFixtureManager',
-		),
 		'db'=>array(
 			'connectionString' => 'mysql:host=localhost;dbname=blog.localhost_test',
 			'emulatePrepare' => true,
