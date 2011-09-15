@@ -20,7 +20,6 @@ class Post extends CActiveRecord
 {
 	const STATUS_DRAFT=1;
 	const STATUS_PUBLISHED=2;
-	const STATUS_ARCHIVED=3;
 
 	/** @var string Tags separated comma*/
 	public $tags_string;
