@@ -4,3 +4,6 @@
 [submodule "src/protected/extensions/markitup-widget"]
 	path = src/protected/extensions/markitup-widget
 	url = git://github.com/yiiext/markitup-widget.git
+[submodule "yii"]
+	path = yii
+	url = git://github.com/yiiext/yii.git

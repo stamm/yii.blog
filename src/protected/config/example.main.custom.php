@@ -36,7 +36,7 @@ return array(
 		),
 
 		'db'=>array(
-			'connectionString' => 'mysql:host=localhost;dbname=blog.localhost',
+			'connectionString' => 'mysql:host=localhost;dbname=yii.blog',
 			'emulatePrepare' => true,
 			'username' => 'yii.blog',
 			'password' => 'yii.blog',
