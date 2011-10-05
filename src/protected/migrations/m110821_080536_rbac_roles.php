@@ -9,9 +9,17 @@ class m110821_080536_rbac_roles extends CDbMigration
 			'condition' => 'username = :username',
 			'params' => array(':username' => 'admin'),
 		))->id;
-		$auth = Yii::app()->authManager;
-		$auth->createRole('admin');
-		$auth->assign('admin' ,$iUserId);
+		$this->insert('AuthItem', array(
+			'name' => 'admin',
+			'type' => '2',
+			'description' => '',
+			'bizrule' => null,
+			'data' => 'N;',
+		));
+		$this->insert('AuthAssignment', array(
+			'itemname' => 'admin',
+			'userid' => $iUserId,
+		));
 	}
 
 	public function down()
