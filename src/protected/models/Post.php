@@ -29,6 +29,8 @@ class Post extends CActiveRecord
 		'login', 'logout', 'post', 'posts', 'pages', 'gii', 'tag', 'about', 'find', 'gii', 'sitemap.xml', 'rss',
 	);
 
+	private $_oldId;
+
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return Post the static model class
@@ -220,11 +222,16 @@ class Post extends CActiveRecord
 		parent::afterSave();
 	}
 
+	protected function beforeDelete()
+	{
+		$this->_oldId = $this->id;
+		return parent::beforeDelete();
+	}
 	protected function afterDelete()
 	{
-		parent::afterDelete();
-		PostTag::model()->deleteAll(array('post_id = :postId'), array(':postId' => $this->id));
-		Comment::model()->deleteAll(array('post_id = :postId'), array(':postId' => $this->id));
+		PostTag::model()->deleteAll(array('post_id = :postId'), array(':postId' => $this->_oldId));
+		Comment::model()->deleteAll(array('post_id = :postId'), array(':postId' => $this->_oldId));
+		return parent::afterDelete();
 		//Tag::model()->updateFrequency($this->tags, '');
 	}
 

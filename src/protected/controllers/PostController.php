@@ -227,6 +227,8 @@ class PostController extends Controller
 				throw new CHttpException(404, Yii::t('all', 'No such tag'));
 			}
 		}
+		
+		$criteria->with = 'commentCount';
 
 		$dataProvider = new CActiveDataProvider(Post::model()->cache(Yii::app()->params['cacheTime'], $dependencyPost, 2), array(
 			'pagination'=>array(
