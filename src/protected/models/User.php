@@ -103,7 +103,12 @@ class User extends CActiveRecord
 
 	public function hashPassword($password)
 	{
-		return md5($this->salt . $password);
+		// secure hashing of passwords using bcrypt, needs PHP 5.3+
+		// see http://codahale.com/how-to-safely-store-a-password/
+
+		// 2a is the bcrypt algorithm selector, see http://php.net/crypt
+		// 12 is the workload factor (around 300ms on my Core i7 machine), see http://php.net/crypt
+		return crypt($password, '$2a$12$' . $this->salt);
 	}
 
 	protected function beforeSave()
@@ -111,7 +116,7 @@ class User extends CActiveRecord
 		// Generate salt if needing
 		if ($this->isNewRecord || ! $this->salt)
 		{
-			$this->salt = md5(mt_rand(0, 1000) . microtime(TRUE));
+			$this->salt = substr(str_replace('+', '.', base64_encode(sha1(microtime(true), true))), 0, 22);
 		}
 		if ($this->password == '')
 		{
