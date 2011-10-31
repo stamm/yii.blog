@@ -5,11 +5,11 @@ return array(
 	'components'=>array(
 		'authManager'=>array(
 				'class'=>'CDbAuthManager',
-				'connectionID'=>'db_test',
+				'connectionID'=>'db',
 		),
 		'db_test'=>array(
 			'class'=>'system.db.CDbConnection',
-			'connectionString' => 'mysql:host=localhost;dbname=blog.localhost_test',
+			'connectionString' => 'mysql:host=localhost;dbname=yii.blog',
 			'emulatePrepare' => true,
 			'username' => 'yii.blog',
 			'password' => 'yii.blog',

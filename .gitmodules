@@ -7,3 +7,6 @@
 [submodule "yii"]
 	path = yii
 	url = git://github.com/yiiext/yii.git
+[submodule "src/protected/extensions/complete"]
+	path = src/protected/extensions/complete
+	url = git://github.com/Stamm/yii-console-completion

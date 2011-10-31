@@ -19,6 +19,12 @@ $aConfig = CMap::mergeArray(
 					),
 				),
 			),
+			'commandMap' => array(
+				'complete' => array(
+					'class' => 'ext.complete.LCompleteCommand',
+					'bashFile' => '/usr/local/etc/bash_completion.d/yii_applications' //Defaults to </etc/bash_completion.d/yii_applications>. May be changed if needed
+				),
+			),
 		)
 	),
 	require(dirname(__FILE__).'/console.custom.php')
