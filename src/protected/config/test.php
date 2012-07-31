@@ -1,6 +1,6 @@
 <?php
 
-$aConf = CMap::mergeArray(
+return CMap::mergeArray(
 	require(dirname(__FILE__).'/all.php'),
 	array(
 		'import' => array(
@@ -31,12 +31,3 @@ $aConf = CMap::mergeArray(
 	),
 	require(dirname(__FILE__).'/test.custom.php')
 );
-// Удаление тулбара
-foreach($aConf['components']['log']['routes'] as $key=>$aValue)
-{
-	if ($aValue['class'] == 'XWebDebugRouter')
-	{
-		unset($aConf['components']['log']['routes'][$key]);
-	}
-}
-return $aConf;

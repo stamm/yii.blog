@@ -2,7 +2,7 @@
 
 // This is the configuration for yiic console application.
 // Any writable CConsoleApplication properties can be configured here.
-$aConfig = CMap::mergeArray(
+return CMap::mergeArray(
 	require(dirname(__FILE__).'/all.php'),
 	array(
 		'components'=>array(
@@ -26,5 +26,3 @@ $aConfig = CMap::mergeArray(
 	),
 	require(dirname(__FILE__).'/console.custom.php')
 );
-
-return $aConfig;
