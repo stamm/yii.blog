@@ -2,5 +2,6 @@ src/protected/runtime/
 src/assets/
 .idea/
 src/protected/config/main.custom.php
+src/protected/config/all.custom.php
 src/protected/config/console.custom.php
 src/protected/config/test.custom.php

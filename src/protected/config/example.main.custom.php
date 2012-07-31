@@ -24,35 +24,6 @@ return array(
 	// application components
 	'components'=>array(
 
-		'cache'=>array(
-			'class'=>'CMemCache',
-			'servers'=>array(
-				array(
-					#'host'=>'unix:///tmp/memcached.sock', 'port'=>NULL
-					'host'=>'127.0.0.1',
-					'port'=>11211,
-				),
-			),
-		),
-
-		'db'=>array(
-			'connectionString' => 'mysql:host=localhost;dbname=yii.blog',
-			'emulatePrepare' => true,
-			'username' => 'yii.blog',
-			'password' => 'yii.blog',
-			'charset' => 'utf8',
-			'tablePrefix' => 'tbl_',
-			//TODO: в продакешене поставить
-			'schemaCachingDuration'=>0,
-			'enableProfiling'=>true,
-			'enableParamLogging' => true,
-		),
-
-		'errorHandler'=>array(
-			// use 'site/error' action to display errors
-			'errorAction'=>'site/error',
-		),
-
 		'log'=>array(
 			'class'=>'CLogRouter',
 			'routes'=>array(
@@ -87,10 +58,4 @@ return array(
 		),
 	),
 
-	// application-level parameters that can be accessed
-	// using Yii::app()->params['paramName']
-	'params'=>array(
-		// this is used in contact page
-		'adminEmail'=>'webmaster@example.com',
-	),
 );
